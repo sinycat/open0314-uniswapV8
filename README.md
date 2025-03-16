@@ -1,66 +1,15 @@
-## Foundry
+##  内容说明
 
-**Foundry is a blazing fast, portable and modular toolkit for Ethereum application development written in Rust.**
+####    1. 创建新项目,forge init
+####    2. 安装或复制uniswapv2 contracts库文件
+####    3. 调整版本或安装已调整过的版本
+####    4. 编制部署合约脚本 分为两个运行函数
+####    5. 运行部署脚本 注意将UniswapV2Factory中PAIR_HASH写入UniswapV2Library中的对应位置
+####    6. 编制测试脚本
+####    7. 测试UniswapV2Router中各函数,主要是addLiquidity和removeLiquidity相关函数
 
-Foundry consists of:
 
--   **Forge**: Ethereum testing framework (like Truffle, Hardhat and DappTools).
--   **Cast**: Swiss army knife for interacting with EVM smart contracts, sending transactions and getting chain data.
--   **Anvil**: Local Ethereum node, akin to Ganache, Hardhat Network.
--   **Chisel**: Fast, utilitarian, and verbose solidity REPL.
+##  重点地方
 
-## Documentation
-
-https://book.getfoundry.sh/
-
-## Usage
-
-### Build
-
-```shell
-$ forge build
-```
-
-### Test
-
-```shell
-$ forge test
-```
-
-### Format
-
-```shell
-$ forge fmt
-```
-
-### Gas Snapshots
-
-```shell
-$ forge snapshot
-```
-
-### Anvil
-
-```shell
-$ anvil
-```
-
-### Deploy
-
-```shell
-$ forge script script/Counter.s.sol:CounterScript --rpc-url <your_rpc_url> --private-key <your_private_key>
-```
-
-### Cast
-
-```shell
-$ cast <subcommand>
-```
-
-### Help
-
-```shell
-$ forge --help
-$ anvil --help
-$ cast --help
-```
+####    1. 版本问题
+####    2. UniswapV2Factory中PAIR_HASH写入UniswapV2Library
