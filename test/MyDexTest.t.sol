@@ -63,63 +63,63 @@ contract MyDexTest is Test {
         vm.stopPrank();
     }
     
-    // 测试sellETH函数 - 用ETH购买RNT
-    function testSellETH() public {
-        vm.startPrank(user);
-        
-        uint256 ethAmount = 1 ether;
-        uint256 minRntAmount = 0; // 在实际使用中应该设置一个合理的最小值
-        
-        uint256 rntBalanceBefore = rnt.balanceOf(user);
-        uint256 ethBalanceBefore = user.balance;
-        
-        // 调用sellETH函数
-        dex.sellETH{value: ethAmount}(address(rnt), minRntAmount);
-        
-        uint256 rntBalanceAfter = rnt.balanceOf(user);
-        uint256 ethBalanceAfter = user.balance;
-        
-        // 验证ETH减少了
-        assertEq(ethBalanceBefore - ethBalanceAfter, ethAmount, "ETH amount should decrease");
-        
-        // 验证RNT增加了
-        assertGt(rntBalanceAfter, rntBalanceBefore, "RNT balance should increase");
-        
-        // 输出交易结果
-        console.log("Sold ETH:", ethAmount / 1e18, "ETH");
-        console.log("Received RNT:", (rntBalanceAfter - rntBalanceBefore) / 1e18, "RNT");
-        
-        vm.stopPrank();
-    }
-    
     // 测试buyETH函数 - 用RNT购买ETH
     function testBuyETH() public {
         vm.startPrank(user);
         
-        uint256 rntAmount = 1000 * 10**18;
-        uint256 minEthAmount = 0; // 在实际使用中应该设置一个合理的最小值
+        // 使用足够多的RNT来购买约1个ETH
+        uint256 rntAmount = 10000 * 10**18;  // 使用10000 RNT
+        uint256 minEthAmount = 0;
         
-        // 授权Dex使用RNT代币
         rnt.approve(address(dex), rntAmount);
         
         uint256 rntBalanceBefore = rnt.balanceOf(user);
         uint256 ethBalanceBefore = user.balance;
         
-        // 调用buyETH函数
         dex.buyETH(address(rnt), rntAmount, minEthAmount);
         
         uint256 rntBalanceAfter = rnt.balanceOf(user);
         uint256 ethBalanceAfter = user.balance;
         
-        // 验证RNT减少了
+        uint256 ethReceived = ethBalanceAfter - ethBalanceBefore;
+        
         assertEq(rntBalanceBefore - rntBalanceAfter, rntAmount, "RNT amount should decrease");
+        assertGt(ethReceived, 0, "ETH balance should increase");
         
-        // 验证ETH增加了
-        assertGt(ethBalanceAfter, ethBalanceBefore, "ETH balance should increase");
-        
-        // 输出交易结果
         console.log("Sold RNT:", rntAmount / 1e18, "RNT");
-        console.log("Received ETH:", (ethBalanceAfter - ethBalanceBefore) / 1e18, "ETH");
+        console.log("Received ETH:", ethReceived / 1e18, "ETH");
+        console.log("Received ETH (wei):", ethReceived);
+        
+        vm.stopPrank();
+    }
+    
+    // 测试sellETH函数 - 用ETH购买RNT
+    function testSellETH() public {
+        // 首先通过buyETH获取一些ETH
+        testBuyETH();
+        
+        vm.startPrank(user);
+        
+        // 使用1 ETH购买RNT
+        uint256 ethAmount = 1 ether;
+        uint256 minRntAmount = 0;
+        
+        uint256 rntBalanceBefore = rnt.balanceOf(user);
+        uint256 ethBalanceBefore = user.balance;
+        
+        dex.sellETH{value: ethAmount}(address(rnt), minRntAmount);
+        
+        uint256 rntBalanceAfter = rnt.balanceOf(user);
+        uint256 ethBalanceAfter = user.balance;
+        
+        uint256 rntReceived = rntBalanceAfter - rntBalanceBefore;
+        
+        assertEq(ethBalanceBefore - ethBalanceAfter, ethAmount, "ETH amount should decrease");
+        assertGt(rntReceived, 0, "RNT balance should increase");
+        
+        console.log("Sold ETH:", ethAmount / 1e18, "ETH");
+        console.log("Received RNT:", rntReceived / 1e18, "RNT");
+        console.log("Received RNT (wei):", rntReceived);
         
         vm.stopPrank();
     }
