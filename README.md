@@ -7,6 +7,8 @@
 ####    5. 运行部署脚本 注意将UniswapV2Factory中PAIR_HASH写入UniswapV2Library中的对应位置
 ####    6. 编制测试脚本
 ####    7. 测试UniswapV2Router中各函数,主要是addLiquidity和removeLiquidity相关函数
+####    8. 编制MyDex合约,引入UniswapV2Router,UniswapV2Factory,WETH9,RNT.
+####    9. 测试MyDex合约.
 
 
 ##  重点地方
