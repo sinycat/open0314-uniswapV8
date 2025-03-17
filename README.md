@@ -19,4 +19,5 @@
 ##  测试成功截图
 <img width="731" alt="测试成功截图3 16" src="https://github.com/user-attachments/assets/fd76ea5a-3ff5-4964-9eaf-4c29c2a4d0ec" />
 
-<img width="713" alt="测试成功截图3 17" src="https://github.com/user-attachments/assets/3e5a2fda-cf54-4b6c-8004-2fe01cbeb14e" />
+
+<img width="714" alt="测试成功截图3 17" src="https://github.com/user-attachments/assets/d4b12847-6290-4e1c-84cb-2edaf490dc10" />
